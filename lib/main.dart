@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
+int min = 1, max = 5;
+Random rndm = new Random();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -10,7 +14,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demonstration',
       theme: ThemeData(
         // This is the theme of your application.
-        //
         // Try running your application with "flutter run". You'll see the
         // application has a blue toolbar. Then, without quitting the app, try
         // changing the primarySwatch below to Colors.green and then invoke
@@ -18,15 +21,20 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
+        primaryColor: Colors.tealAccent[700],
+
       ),
-      home: MyHomePage(title: 'Flutter Demonstration'), // change from Flutter Demo Home Page
+      home: MyHomePage('Flutter Demonstration'), // change from Flutter Demo Home Page
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  final String title;
+
+  MyHomePage(this.title);
+
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State objerct (defined below) that contains fields that affect
@@ -37,7 +45,9 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  // void initState(
+
+  // )
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -45,8 +55,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int questionNumber = 1;
+  String question="";
+  int random;
+  // Random num1 = Random(4);
+  // Random rnd;
+  // int min = 5;
+  // int max = 10;
+  // rnd = new Random();
+  // r = min + rnd.nextInt(max - min);
+  // print("$r is in the range of $min and $max");
+  // Random([50]);
 
-  void _incrementCounter() {
+  // random.nextDouble(); // Between 0.0 and 1.0: [0, 1)
+
+
+
+  void _next() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -54,8 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      questionNumber++;
+      random = min + rndm.nextInt(max-min); // Between 0 
     });
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +98,9 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(widget.title, 
+          style: TextStyle(color: Colors.orange[300]),
+        ),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -92,7 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              '$questionNumber. You have pushed the button this many times:',
+            ),
+            Text(
+              'Random number $random'
             ),
             Text(
               '$_counter',
@@ -102,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _next,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
