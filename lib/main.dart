@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
-int min = 1, max = 5;
+int min = 1, max = 4;
 Random rndm = new Random();
 
 class MyApp extends StatelessWidget {
@@ -31,15 +31,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter;
   int questionNumber;
-  String question;
+  String question, questionAdd, questionSubtract, questionMultiply, questionDivide;
   int random;
 
   @override
   void initState(){
     _counter = 0;
     questionNumber = 1;
-    question="";
     random = min + rndm.nextInt(max-min);
+    if (random==1){
+      question="Addition:";
+    }
+    else if (random==2){
+      question="Subtraction:";
+    }
+    else if (random==3){
+      question="Multiplication:";
+    }
+    else {
+      question="Division:";
+    }
     super.initState();
   }
 
@@ -47,7 +58,19 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter++;
       questionNumber++;
-      random = min + rndm.nextInt(max-min); // Between 0 
+      random = min + rndm.nextInt(max-min); 
+      if (random==1){
+      question="Addition:";
+      }
+      else if (random==2){
+        question="Subtraction:";
+      }
+      else if (random==3){
+        question="Multiplication:";
+      }
+      else {
+        question="Division:";
+      }
     });
   }
 
@@ -64,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              '$questionNumber. You have pushed the button this many times:',
+              '$questionNumber. $question',
             ),
             Text(
               'Random number $random'
