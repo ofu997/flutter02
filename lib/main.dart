@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.tealAccent[700],
 
       ),
-      home: MyHomePage('Flutter Demonstration'), // change from Flutter Demo Home Page
+      home: MyHomePage('Game'), // change from Flutter Demo Home Page
     );
   }
 }
@@ -54,21 +54,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  int questionNumber = 1;
-  String question="";
+  int _counter;
+  int questionNumber;
+  String question;
   int random;
-  // Random num1 = Random(4);
-  // Random rnd;
-  // int min = 5;
-  // int max = 10;
-  // rnd = new Random();
-  // r = min + rnd.nextInt(max - min);
-  // print("$r is in the range of $min and $max");
-  // Random([50]);
 
-  // random.nextDouble(); // Between 0.0 and 1.0: [0, 1)
-
+  @override
+  void initState(){
+    _counter = 0;
+    questionNumber = 1;
+    question="";
+    random = min + rndm.nextInt(max-min);
+    super.initState();
+  }
 
 
   void _next() {
