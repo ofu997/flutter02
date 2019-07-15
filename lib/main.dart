@@ -14,33 +14,90 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
         primaryColor: Colors.tealAccent[700],
       ),
-      home: MyHomePage('Game'), // change from Flutter Demo Home Page
+      home: GameDisplay('Game'), // change from Flutter Demo Home Page
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class GameDisplay extends StatefulWidget {
   final String title;
 
-  MyHomePage(this.title);
+  GameDisplay(this.title);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _GameDisplayState createState() => _GameDisplayState();
+
+  // old way
+  // @override 
+  // State<StatefulWidget> createState() {
+  //   return _GameDisplayState();
+  // }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _GameDisplayState extends State<GameDisplay> {
   int _counter;
-  int questionNumber;
+  int questionNumber, a1, a2, s1, s2, m1, m2, d1, d2;
+  int aAnswer, sAnswer, mAnswer;
+  double dAnswer; 
   String question, questionAdd, questionSubtract, questionMultiply, questionDivide;
   int random;
+  Map<String,int> aRange = const {
+    "min": 1,
+    "max": 50,
+  };
+
+    int makeSecondNumber(String question){
+    int firstNumber;
+    if (question=="Addition"){
+      a1 = aRange['min'] + rndm.nextInt(aRange['max']);
+      firstNumber = a1;
+    }
+    else if (question=="Subtraction"){
+
+    }        
+    else if (question=="Multiplication"){
+
+    }        
+    else {
+
+    }
+
+    return firstNumber;      
+  }
+
+  int makeFirstNumber(String question){
+    int firstNumber;
+    if (question=="Addition"){
+      a1 = aRange['min'] + rndm.nextInt(aRange['max']);
+      firstNumber = a1;
+      // a2 = aRange['min'] + rndm.nextInt(aRange['max']);
+      // aAnswer = a1 + a2; 
+    }
+    else if (question=="Subtraction"){
+
+    }        
+    else if (question=="Multiplication"){
+
+    }        
+    else {
+
+    }
+    print('firstNumber is $firstNumber');
+    return firstNumber;      
+  }
 
   @override
   void initState(){
     _counter = 0;
     questionNumber = 1;
-    random = min + rndm.nextInt(max-min);
+    aAnswer = 0;
+    // a1 = 0;
+    // a2 = 0;
+    random = min + rndm.nextInt(max);
     if (random==1){
       question="Addition:";
+      a1 = aRange['min'] + rndm.nextInt(aRange['max']);
+      a2 = aRange['min'] + rndm.nextInt(aRange['max']); 
     }
     else if (random==2){
       question="Subtraction:";
@@ -50,7 +107,15 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     else {
       question="Division:";
-    }
+    }    
+
+
+
+    // makeFirstNumber(question);
+    print("a1 is $a1");
+    // makeSecondNumber(question);
+    print("a2 is $a2");
+    // calculateAnswer();
     super.initState();
   }
 
@@ -58,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter++;
       questionNumber++;
-      random = min + rndm.nextInt(max-min); 
+      random = min + rndm.nextInt(max); 
       if (random==1){
       question="Addition:";
       }
@@ -71,8 +136,17 @@ class _MyHomePageState extends State<MyHomePage> {
       else {
         question="Division:";
       }
+
+      a1=makeFirstNumber(question);
+      print("a1 is $a1");
+      a2=makeSecondNumber(question);
+      print("a2 is $a2");
+
+
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,15 +161,15 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              '$questionNumber. $question',
+              '$questionNumber. $question what is  $a1 + $a2 ?'
             ),
             Text(
-              'Random number $random'
+              'aAnswer $aAnswer'
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
+            // Text(
+            //   '$_counter',
+            //   style: Theme.of(context).textTheme.display1,
+            // ),
           ],
         ),
       ),
@@ -111,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
 // This trailing comma makes auto-formatting nicer for build methods.
 // Column is also layout widget. It takes a list of children and
 // Center is a layout widget. It takes a single child and positions it
-// Here we take the value from the MyHomePage object that was created by
+// Here we take the value from the GameDisplay object that was created by
 // This method is rerun every time setState is called, for instance as done
 // This call to setState tells the Flutter framework that something has
 // This widget is the home page of your application. It is stateful, meaning
