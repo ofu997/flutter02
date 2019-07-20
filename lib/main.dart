@@ -19,57 +19,81 @@ class MyApp extends StatelessWidget {
   }
 }
 
+enum Operators{
+  addition,
+  subtraction,
+  multiplication,
+  division,
+}
+
 class GameDisplay extends StatefulWidget {
   final String title;
 
   GameDisplay(this.title);
 
-  @override
-  _GameDisplayState createState() => _GameDisplayState();
-
-  // old way
-  // @override 
-  // State<StatefulWidget> createState() {
-  //   return _GameDisplayState();
-  // }
-}
+  _GameDisplayState createState()=>_GameDisplayState();
+}  
 
 class _GameDisplayState extends State<GameDisplay> {
   int _counter;
-  int questionNumber, a1, a2, s1, s2, m1, m2, d1, d2;
-  int aAnswer, sAnswer, mAnswer;
+  int questionNumber, firstNumber, secondNumber, s1, s2, m1, m2, d1, d2;
+  int answer, sAnswer, mAnswer;
   double dAnswer; 
   String question, questionAdd, questionSubtract, questionMultiply, questionDivide;
   int random;
   Map<String,int> aRange = const {
     "min": 1,
     "max": 50,
+    "maxQuotient": 12,
   };
 
-  int makeSecondNumber(String question){
-    int firstNumber;
-    if (question=="Addition"){
-      a1 = aRange['min'] + rndm.nextInt(aRange['max']);
-      firstNumber = a1;
+  @override
+  void initState(){
+    _counter = 0;
+    questionNumber = 1;
+    answer = 0;
+
+    final operatorSign = determineOperation();
+    // setState(() {
+      firstNumber = makeFirstNumber(operatorSign);
+    // });
+    secondNumber = makeSecondNumber(operatorSign);
+    answer = calculateAnswer(firstNumber, secondNumber, operatorSign);
+    super.initState();
+  }
+
+  void _next() {
+    setState(() {
+      _counter++;
+      questionNumber++;
+      final operatorSign = determineOperation();
+      firstNumber = makeFirstNumber(operatorSign);
+      secondNumber = makeSecondNumber(operatorSign);
+      answer = calculateAnswer(firstNumber, secondNumber, operatorSign);
+    });
+  }
+
+  Operators determineOperation(){
+    random = min + rndm.nextInt(max); 
+    if (random==1){
+      return Operators.addition;
     }
-    else if (question=="Subtraction"){
-
-    }        
-    else if (question=="Multiplication"){
-
-    }        
+    else if (random==2){
+      return Operators.subtraction;
+    }
+    else if (random==3){
+      return Operators.multiplication;
+    }
     else {
-
-    }
-
-    return firstNumber;      
+      return Operators.division;
+    }  
   }
 
   int makeFirstNumber(Operators operatorSign) {
-    int firstNumber;
+    // int firstNumber;
     if (operatorSign == Operators.addition){
-      
-      return aRange['min'] + rndm.nextInt(aRange['max']);
+      firstNumber = 
+      aRange['min'] + rndm.nextInt(aRange['max']);
       // a2 = aRange['min'] + rndm.nextInt(aRange['max']);
       // aAnswer = a1 + a2; 
     }
@@ -80,77 +104,42 @@ class _GameDisplayState extends State<GameDisplay> {
 
     }        
     else {
-
+      int quotient = aRange['min'] + rndm.nextInt(aRange['maxQuotient']);
+      int divisor = aRange['min'] + rndm.nextInt(aRange['maxQuotient']);
+      int dividend = quotient*divisor; 
+      firstNumber = dividend;
+      secondNumber = (dividend/divisor) as int;
+      answer = quotient; 
     }
-
-    setState(() {
+    // setState(() {
         
-      });
-    print('firstNumber is $firstNumber');
+    //   });
+    // print('firstNumber is $firstNumber');
     return firstNumber;      
   }
 
-
-
-  @override
-  void initState(){
-    _counter = 0;
-    questionNumber = 1;
-    aAnswer = 0;
-    // a1 = 0;
-    // a2 = 0;
-
-    // make this a function?
-    final operatorSign = determineOperation();
-    setState(() {
-      a1 = makeFirstNumber(operatorSign);
-    });
-
-
-    super.initState();
-  }
-
-
-
-  void _next() {
-    setState(() {
-      _counter++;
-      questionNumber++;
-      question = determineOperation();
-      // random = min + rndm.nextInt(max); 
-      // if (random==1){
-      // question="Addition:";
-      // }
-      // else if (random==2){
-      //   question="Subtraction:";
-      // }
-      // else if (random==3){
-      //   question="Multiplication:";
-      // }
-      // else {
-      //   question="Division:";
-      // }
-
-    });
-  }
-
-    Operators determineOperation(){
-    random = min + rndm.nextInt(max); 
-    if (random==1){
-      return Operators.addition;
-      // a1 = aRange['min'] + rndm.nextInt(aRange['max']);
-      // a2 = aRange['min'] + rndm.nextInt(aRange['max']); 
+  int makeSecondNumber(Operators operatorSign){
+    // int secondNumber;
+    if (operatorSign==Operators.addition){
+      secondNumber = aRange['min'] + rndm.nextInt(aRange['max']);
+      // firstNumber = a1;
     }
-    else if (random==2){
-      question="Subtraction:";
-    }
-    else if (random==3){
-      question="Multiplication:";
-    }
+    else if (operatorSign==Operators.subtraction){
+
+    }        
+    else if (operatorSign==Operators.multiplication){
+
+    }        
     else {
-      question="Division:";
-    }  
-    return question;  
+      return secondNumber;
+    }
+    return secondNumber;      
+  }
+
+  int calculateAnswer(int firstNumber, int secondNumber, Operators operatorSign){
+    if(operatorSign==Operators.addition)
+    answer = firstNumber + secondNumber;
+    return answer;
   }
 
   @override
@@ -169,7 +158,7 @@ class _GameDisplayState extends State<GameDisplay> {
               '$questionNumber. $question '
             ),
             Text(
-              'aAnswer $aAnswer'
+              'firstNumber: $firstNumber, secondNumber: $secondNumber, answer: $answer'
             ),
             Text(
               '$_counter',
@@ -187,12 +176,6 @@ class _GameDisplayState extends State<GameDisplay> {
   }
 }
 
-enum Operators {
-  addition,
-  subtraction,
-  multiplication,
-  division
-}
 
 // This trailing comma makes auto-formatting nicer for build methods.
 // Column is also layout widget. It takes a list of children and
