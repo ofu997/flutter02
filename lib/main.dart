@@ -46,7 +46,7 @@ class _GameDisplayState extends State<GameDisplay> {
     "max": 50,
   };
 
-    int makeSecondNumber(String question){
+  int makeSecondNumber(String question){
     int firstNumber;
     if (question=="Addition"){
       a1 = aRange['min'] + rndm.nextInt(aRange['max']);
@@ -65,11 +65,11 @@ class _GameDisplayState extends State<GameDisplay> {
     return firstNumber;      
   }
 
-  int makeFirstNumber(String question){
+  int makeFirstNumber(Operators operatorSign) {
     int firstNumber;
-    if (question=="Addition"){
-      a1 = aRange['min'] + rndm.nextInt(aRange['max']);
-      firstNumber = a1;
+    if (operatorSign == Operators.addition){
+      
+      return aRange['min'] + rndm.nextInt(aRange['max']);
       // a2 = aRange['min'] + rndm.nextInt(aRange['max']);
       // aAnswer = a1 + a2; 
     }
@@ -82,9 +82,15 @@ class _GameDisplayState extends State<GameDisplay> {
     else {
 
     }
+
+    setState(() {
+        
+      });
     print('firstNumber is $firstNumber');
     return firstNumber;      
   }
+
+
 
   @override
   void initState(){
@@ -93,11 +99,47 @@ class _GameDisplayState extends State<GameDisplay> {
     aAnswer = 0;
     // a1 = 0;
     // a2 = 0;
-    random = min + rndm.nextInt(max);
+
+    // make this a function?
+    final operatorSign = determineOperation();
+    setState(() {
+      a1 = makeFirstNumber(operatorSign);
+    });
+
+
+    super.initState();
+  }
+
+
+
+  void _next() {
+    setState(() {
+      _counter++;
+      questionNumber++;
+      question = determineOperation();
+      // random = min + rndm.nextInt(max); 
+      // if (random==1){
+      // question="Addition:";
+      // }
+      // else if (random==2){
+      //   question="Subtraction:";
+      // }
+      // else if (random==3){
+      //   question="Multiplication:";
+      // }
+      // else {
+      //   question="Division:";
+      // }
+
+    });
+  }
+
+    Operators determineOperation(){
+    random = min + rndm.nextInt(max); 
     if (random==1){
-      question="Addition:";
-      a1 = aRange['min'] + rndm.nextInt(aRange['max']);
-      a2 = aRange['min'] + rndm.nextInt(aRange['max']); 
+      return Operators.addition;
+      // a1 = aRange['min'] + rndm.nextInt(aRange['max']);
+      // a2 = aRange['min'] + rndm.nextInt(aRange['max']); 
     }
     else if (random==2){
       question="Subtraction:";
@@ -107,46 +149,9 @@ class _GameDisplayState extends State<GameDisplay> {
     }
     else {
       question="Division:";
-    }    
-
-
-
-    // makeFirstNumber(question);
-    print("a1 is $a1");
-    // makeSecondNumber(question);
-    print("a2 is $a2");
-    // calculateAnswer();
-    super.initState();
+    }  
+    return question;  
   }
-
-  void _next() {
-    setState(() {
-      _counter++;
-      questionNumber++;
-      random = min + rndm.nextInt(max); 
-      if (random==1){
-      question="Addition:";
-      }
-      else if (random==2){
-        question="Subtraction:";
-      }
-      else if (random==3){
-        question="Multiplication:";
-      }
-      else {
-        question="Division:";
-      }
-
-      a1=makeFirstNumber(question);
-      print("a1 is $a1");
-      a2=makeSecondNumber(question);
-      print("a2 is $a2");
-
-
-    });
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -161,15 +166,15 @@ class _GameDisplayState extends State<GameDisplay> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              '$questionNumber. $question what is  $a1 + $a2 ?'
+              '$questionNumber. $question '
             ),
             Text(
               'aAnswer $aAnswer'
             ),
-            // Text(
-            //   '$_counter',
-            //   style: Theme.of(context).textTheme.display1,
-            // ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.display1,
+            ),
           ],
         ),
       ),
@@ -180,6 +185,13 @@ class _GameDisplayState extends State<GameDisplay> {
       )
     );
   }
+}
+
+enum Operators {
+  addition,
+  subtraction,
+  multiplication,
+  division
 }
 
 // This trailing comma makes auto-formatting nicer for build methods.
