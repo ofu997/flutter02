@@ -97,10 +97,10 @@ class _GameDisplayState extends State<GameDisplay> {
       // a2 = aRange['min'] + rndm.nextInt(aRange['max']);
       // aAnswer = a1 + a2; 
     }
-    else if (question=="Subtraction"){
-
+    else if (operatorSign == Operators.subtraction){
+      firstNumber = aRange['min'] + rndm.nextInt(aRange['max']);
     }        
-    else if (question=="Multiplication"){
+    else if (operatorSign == Operators.multiplication{
 
     }        
     else {
@@ -125,13 +125,13 @@ class _GameDisplayState extends State<GameDisplay> {
       // firstNumber = a1;
     }
     else if (operatorSign==Operators.subtraction){
-
+      // figure out how to ensure result is positive
     }        
     else if (operatorSign==Operators.multiplication){
 
     }        
     else {
-      return secondNumber;
+      
     }
     return secondNumber;      
   }
@@ -171,7 +171,8 @@ class _GameDisplayState extends State<GameDisplay> {
         onPressed: _next,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      )
+      ),
+      backgroundColor: Colors.tealAccent[50],
     );
   }
 }
